@@ -82,7 +82,7 @@ function verifyPaymentToken(token: string) {
           },
           data: {
             amount: {
-              increment: Number(decoded.amount),
+              increment: (Number(decoded.amount) * 100),
             },
           },
         }),

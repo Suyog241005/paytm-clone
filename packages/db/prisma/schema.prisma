@@ -18,6 +18,12 @@ model User {
   Authenticator Authenticator[]
   transactions  OnRampTransaction[]
 
+  sentTransfer    P2pTransfer[] @relation("Sender")
+  recieveTransfer P2pTransfer[] @relation("Reciever")
+
+  sentRamp    P2pOnRampTransaction[] @relation("Sender")
+  recieveRamp P2pOnRampTransaction[] @relation("Reciever")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Balance   Balance?
@@ -83,19 +89,40 @@ model OnRampTransaction {
   token     String       @unique
   provider  String
   amount    Int
-  startTime DateTime  
+  startTime DateTime     @default(now())
   userId    String
   user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model P2pOnRampTransaction {
+  id         String       @id @default(cuid())
+  status     OnRampStatus
+  provider   String
+  amount     Int
+  startTime  DateTime     @default(now())
+  senderId   String
+  recieverId String
+  sender     User         @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  reciever   User         @relation("Reciever", fields: [recieverId], references: [id], onDelete: Cascade)
 }
 
 model Balance {
   id     String @id @default(cuid())
   userId String @unique
-  amount Int  
-  locked Int  
+  amount Int
+  locked Int
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model P2pTransfer {
+  id         String   @id @default(cuid())
+  senderId   String   @unique
+  recieverId String   @unique
+  amount     Int
+  timeStamp  DateTime @default(now())
+  sender     User     @relation("Sender", fields: [senderId], references: [id], onDelete: Cascade)
+  reciever   User     @relation("Reciever", fields: [recieverId], references: [id], onDelete: Cascade)
+}
 
 enum OnRampStatus {
   Success

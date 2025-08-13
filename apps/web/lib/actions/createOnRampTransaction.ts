@@ -16,8 +16,10 @@ export const createOnRampTransaction = async ({
 }: createOnRampTransactionProps) => {
   const user = await currentUser();
   if (!user) {
-    return signIn();
+    return await signIn();
   }
+
+  
 
   const onRampTransaction = await db.onRampTransaction.create({
     data:{
@@ -25,10 +27,9 @@ export const createOnRampTransaction = async ({
       userId:user.id,
       provider,
       amount:amount*100,
-      startTime: new Date(),
       token
     }
   })
-
+  
   return onRampTransaction.id
 };

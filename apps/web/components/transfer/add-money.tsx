@@ -80,6 +80,7 @@ export const AddMoney = ({ userId }: AddMoneyProps) => {
       if (!values.amount) {
         return alert("amount is required");
       }
+      alert(`amount: ${values.amount}`);
       const url = banks.find((bank) => bank.value === values.bank)?.url;
 
       const tokenData = await axios.get(

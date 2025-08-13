@@ -2,7 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { SidebarItem } from "../../components/sidebar-item";
 import { currentUser } from "@/lib/current-user";
 import { signIn } from "@/auth";
-import { ArrowLeftRight, HistoryIcon, HomeIcon } from "lucide-react";
+import { HistoryIcon, HomeIcon, Plus, Send } from "lucide-react";
 
 export default async function Layout({
   children,
@@ -22,15 +22,16 @@ export default async function Layout({
         <div className="w-[20%] border-r border-slate-300 h-full pt-28 ">
           <div className="">
             <SidebarItem href={"/dashboard"} icon={<HomeIcon />} title="Home" />
-            <SidebarItem
-              href={"/transfer"}
-              icon={<ArrowLeftRight />}
-              title="Transfer"
-            />
+            <SidebarItem href={"/transfer"} icon={<Plus />} title="Add-Money" />
             <SidebarItem
               href={"/transactions"}
               icon={<HistoryIcon />}
               title="Transactions"
+            />
+            <SidebarItem
+              href={"/p2ptransfer"}
+              icon={<Send />}
+              title="P2P_Transfer"
             />
           </div>
         </div>

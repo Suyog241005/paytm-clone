@@ -18,7 +18,6 @@ import {
   HistoryIcon,
 } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "@workspace/ui/components/separator";
 
 const Dashboard = async () => {
   const user = await currentUser();
@@ -30,7 +29,6 @@ const Dashboard = async () => {
   const balance = await db.balance.findFirst({
     where: { userId: user.id },
   });
-
 
   const totalBalance = (balance?.amount || 0) / 100;
   const lockedBalance = (balance?.locked || 0) / 100;
@@ -125,7 +123,7 @@ const Dashboard = async () => {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <Button asChild className="h-20 flex-col gap-2" variant="outline">
                 <Link href="/transfer">
                   <PlusIcon className="w-5 h-5" />
@@ -135,10 +133,6 @@ const Dashboard = async () => {
               <Button className="h-20 flex-col gap-2" variant="outline">
                 <SendIcon className="w-5 h-5" />
                 Send Money
-              </Button>
-              <Button className="h-20 flex-col gap-2" variant="outline">
-                <CreditCardIcon className="w-5 h-5" />
-                Pay Bills
               </Button>
               <Button asChild className="h-20 flex-col gap-2" variant="outline">
                 <Link href="/transactions">
