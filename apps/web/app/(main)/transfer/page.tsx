@@ -1,7 +1,6 @@
 import { signIn } from "@/auth";
 import { AddMoney } from "@/components/transfer/add-money";
 import { Balance } from "@/components/transfer/balance";
-import { History } from "@/components/transfer/history";
 import { currentUser } from "@/lib/current-user";
 import { db } from "@workspace/db/db";
 
@@ -39,7 +38,6 @@ const Transfer = async () => {
           unlockedBalance={unlockedBalance}
           lockedBalance={lockedBalance}
         />
-        <History />
       </div>
     </div>
   );
