@@ -8,12 +8,9 @@ import {
   ArrowDownIcon, 
   CreditCardIcon, 
   WalletIcon, 
-  TrendingUpIcon,
   PlusIcon,
   SendIcon,
   HistoryIcon,
-  EyeIcon,
-  EyeOffIcon
 } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@workspace/ui/components/separator";
@@ -43,22 +40,15 @@ const Dashboard = async () => {
   const lockedBalance = (balance?.locked || 0) / 100;
   const unlockedBalance = totalBalance - lockedBalance;
 
-  // Mock data for additional dashboard metrics
-  const monthlySpending = 12450;
-  const monthlyIncome = 25600;
-  const savingsGoal = 50000;
-  const currentSavings = 32000;
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="h-full w-full flex flex-col justify-start items-start p-6 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-bold text-black dark:text-gray-200">
               Welcome back, {user.name?.split(' ')[0] || 'User'}!
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
               Here's what's happening with your money today.
             </p>
           </div>
@@ -80,17 +70,19 @@ const Dashboard = async () => {
 
         {/* Balance Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-gradient-to-br from-blue-600 to-blue-700 text-white border-0">
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-blue-100">
+              <CardTitle className="text-sm font-medium">
                 Total Balance
               </CardTitle>
-              <WalletIcon className="h-4 w-4 text-blue-200" />
+              <WalletIcon className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">₹{totalBalance.toLocaleString()}</div>
-              <p className="text-xs text-blue-200 mt-1">
-                +2.5% from last month
+              <div className="text-2xl font-bold text-black dark:text-gray-200">
+                ₹{totalBalance.toLocaleString()}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Your total wallet balance
               </p>
             </CardContent>
           </Card>
@@ -132,24 +124,24 @@ const Dashboard = async () => {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Button asChild className="h-20 flex-col gap-2" variant="outline">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <Button asChild className="h-16 flex-col gap-2" variant="outline">
                 <Link href="/transfer">
-                  <PlusIcon className="w-6 h-6" />
+                  <PlusIcon className="w-5 h-5" />
                   Add Money
                 </Link>
               </Button>
-              <Button className="h-20 flex-col gap-2" variant="outline">
-                <SendIcon className="w-6 h-6" />
+              <Button className="h-16 flex-col gap-2" variant="outline">
+                <SendIcon className="w-5 h-5" />
                 Send Money
               </Button>
-              <Button className="h-20 flex-col gap-2" variant="outline">
-                <CreditCardIcon className="w-6 h-6" />
+              <Button className="h-16 flex-col gap-2" variant="outline">
+                <CreditCardIcon className="w-5 h-5" />
                 Pay Bills
               </Button>
-              <Button asChild className="h-20 flex-col gap-2" variant="outline">
+              <Button asChild className="h-16 flex-col gap-2" variant="outline">
                 <Link href="/transactions">
-                  <HistoryIcon className="w-6 h-6" />
+                  <HistoryIcon className="w-5 h-5" />
                   History
                 </Link>
               </Button>
@@ -157,7 +149,7 @@ const Dashboard = async () => {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
           {/* Recent Transactions */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
@@ -168,18 +160,18 @@ const Dashboard = async () => {
             </CardHeader>
             <CardContent>
               {recentTransactions.length === 0 ? (
-                <div className="text-center py-8 text-muted-foreground">
-                  <HistoryIcon className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <div className="text-center py-6 text-muted-foreground">
+                  <HistoryIcon className="w-10 h-10 mx-auto mb-3 opacity-50" />
                   <p>No transactions yet</p>
                   <p className="text-sm">Start by adding money to your wallet</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {recentTransactions.map((transaction) => (
                     <div key={transaction.id} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
-                          <ArrowDownIcon className="w-5 h-5 text-blue-600" />
+                        <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                          <ArrowDownIcon className="w-4 h-4 text-green-600" />
                         </div>
                         <div>
                           <p className="font-medium">
@@ -211,88 +203,45 @@ const Dashboard = async () => {
             </CardContent>
           </Card>
 
-          {/* Monthly Overview */}
+          {/* Account Summary */}
           <Card>
             <CardHeader>
-              <CardTitle>Monthly Overview</CardTitle>
+              <CardTitle>Account Summary</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <span className="text-sm">Income</span>
-                  </div>
-                  <span className="font-medium text-green-600">
-                    ₹{monthlyIncome.toLocaleString()}
+                  <span className="text-sm font-medium">Account Status</span>
+                  <span className="text-sm px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded-full">
+                    Active
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <span className="text-sm">Spending</span>
-                  </div>
-                  <span className="font-medium text-red-600">
-                    ₹{monthlySpending.toLocaleString()}
+                  <span className="text-sm font-medium">Total Transactions</span>
+                  <span className="font-medium">{recentTransactions.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Last Transaction</span>
+                  <span className="text-sm text-muted-foreground">
+                    {recentTransactions.length > 0 
+                      ? recentTransactions[0].startTime.toLocaleDateString()
+                      : "No transactions"
+                    }
                   </span>
                 </div>
               </div>
               
               <Separator />
               
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium">Savings Goal</span>
-                  <span className="text-sm text-muted-foreground">
-                    ₹{currentSavings.toLocaleString()} / ₹{savingsGoal.toLocaleString()}
-                  </span>
+              <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <div className="text-lg font-bold text-blue-600 mb-1">
+                  ₹{unlockedBalance.toLocaleString()}
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(currentSavings / savingsGoal) * 100}%` }}
-                  ></div>
-                </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {Math.round((currentSavings / savingsGoal) * 100)}% of goal achieved
-                </p>
+                <p className="text-sm text-blue-700 dark:text-blue-400">Available to Spend</p>
               </div>
             </CardContent>
           </Card>
         </div>
-
-        {/* Financial Insights */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUpIcon className="w-5 h-5" />
-              Financial Insights
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-green-600 mb-1">
-                  ₹{(monthlyIncome - monthlySpending).toLocaleString()}
-                </div>
-                <p className="text-sm text-green-700 dark:text-green-400">Net Savings This Month</p>
-              </div>
-              <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600 mb-1">
-                  ₹{Math.round(monthlySpending / 30).toLocaleString()}
-                </div>
-                <p className="text-sm text-blue-700 dark:text-blue-400">Average Daily Spending</p>
-              </div>
-              <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600 mb-1">
-                  {Math.round((currentSavings / monthlyIncome) * 100)}%
-                </div>
-                <p className="text-sm text-purple-700 dark:text-purple-400">Savings Rate</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 };
