@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const user = await currentUser();
-    const { email, amount } = await req.json();
+    const { email, amount, onRampTransactionId } = await req.json();
 
     if (!user) {
       return new NextResponse("Unauthorized", { status: 400 });
@@ -16,6 +16,9 @@ export async function POST(req: Request) {
     }
     if (!amount) {
       return new NextResponse("amount not provided", { status: 400 });
+    }
+    if (!onRampTransactionId) {
+      return new NextResponse("transaction Id not provided", { status: 400 });
     }
 
     const reciever = await db.user.findUnique({
@@ -48,15 +51,32 @@ export async function POST(req: Request) {
           },
         },
       }),
+      db.p2pOnRampTransaction.update({
+        where: {
+          id: onRampTransactionId,
+        },
+        data: {
+          status: "Success",
+        },
+      }),
     ]);
 
     if (!response) {
+      await db.p2pOnRampTransaction.update({
+        where: {
+          id: onRampTransactionId,
+        },
+        data: {
+          status: "Failure",
+        },
+      });
       return new NextResponse("Transfer failed", { status: 400 });
     }
 
     return NextResponse.json({ response }, { status: 200 });
   } catch (error) {
     console.log("P2PTRANSFER_POST_ERROR", error);
+    
     return new NextResponse("internal server error", { status: 500 });
   }
 }

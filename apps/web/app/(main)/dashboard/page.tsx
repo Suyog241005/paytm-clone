@@ -130,9 +130,11 @@ const Dashboard = async () => {
                   Add Money
                 </Link>
               </Button>
-              <Button className="h-20 flex-col gap-2" variant="outline">
-                <SendIcon className="w-5 h-5" />
-                Send Money
+              <Button asChild className="h-20 flex-col gap-2" variant="outline">
+                <Link href="/p2ptransfer">
+                  <SendIcon className="w-5 h-5" />
+                  Send Money
+                </Link>
               </Button>
               <Button asChild className="h-20 flex-col gap-2" variant="outline">
                 <Link href="/transactions">

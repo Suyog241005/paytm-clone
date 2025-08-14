@@ -22,6 +22,7 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import axios from "axios";
+import { Createp2pOnRamp } from "@/lib/actions/createp2pOnRamp";
 
 const sendMoneySchema = z.object({
   amount: z
@@ -59,7 +60,17 @@ export const SendMoney = ({ userId }: SendMoneyProps) => {
         return alert("amount is required");
       }
 
-      const response = await axios.post(`/api/p2ptransfer/${userId}`, values);
+      const onRampTransaction=await Createp2pOnRamp({email:values.email, amount:values.amount});
+
+      if(!onRampTransaction) return {message:"transaction fail"}
+
+      const data={
+        email:values.email,
+        amount:values.amount,
+        onRampTransactionId:onRampTransaction.id
+      }
+
+      const response = await axios.post(`/api/p2ptransfer/${userId}`, data);
       console.log("response", response);
 
       if (response.status === 200) {
